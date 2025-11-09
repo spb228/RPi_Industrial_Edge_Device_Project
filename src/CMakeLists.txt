@@ -17,4 +17,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/bin)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+)
+
 MESSAGE (STATUS "Done configuring ${PROJECT_NAME}")
