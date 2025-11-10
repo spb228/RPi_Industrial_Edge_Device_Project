@@ -1,4 +1,5 @@
 #include "spi_driver.h"
+#include "common_def.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,5 +69,14 @@ spi_handle_t* spi_init(const char *device, uint8_t mode, uint32_t speed, uint8_t
     handle->delay = 0; 
 
     return handle; 
+}
+
+int spi_close(spi_handle_t* handle)
+{
+    if (!handle)
+    {
+        fprintf(stderr, "SPI: Invalid handle\n"); 
+        return ERROR; 
+    }
 }
 

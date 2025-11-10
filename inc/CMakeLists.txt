@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 project(inc)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
-
 set(INC_LIB_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/common_def.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/common_def.c
 )
 
 add_library(${PROJECT_NAME} STATIC 
