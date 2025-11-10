@@ -35,12 +35,8 @@ int spi_write(spi_handle_t *handle, const uint8_t *data, size_t len);
 int spi_read(spi_handle_t *handle, uint8_t *data, size_t len); 
 
 /* Full-dupex read and write simulatneously */
-int spi_transfer(spi_handle_t *handle, const uint8_t *tx_data, uint8_t rx_data, size_t len);
+int spi_transfer(spi_handle_t *handle, const uint8_t *tx_data, uint8_t *rx_data, size_t len);
 
 int spi_write_reg(spi_handle_t *handle, uint8_t reg, uint8_t data);
 
 int spi_read_reg(spi_handle_t *handle, uint8_t reg, uint8_t *data);
-
-int spi_set_speed(spi_handle_t *handle, uint32_t speed);
-
-int spi_set_mode(spi_handle_t *handle, uint8_t mode);

@@ -78,5 +78,122 @@ int spi_close(spi_handle_t* handle)
         fprintf(stderr, "SPI: Invalid handle\n"); 
         return ERROR; 
     }
+
+    int ret = close(handle->fd); 
+    free(handle);
+
+    return ret; 
 }
 
+int spi_write(spi_handle_t *handle, const uint8_t *data, size_t len)
+{
+    if (!handle || !data || len == 0)
+    {
+        fprintf(stderr, "SPI: Invalid parameters\n"); 
+        return ERROR; 
+    }
+
+    struct spi_ioc_transfer tr = {
+        .tx_buf = (unsigned long)data,
+        .rx_buf = 0, 
+        .len = len, 
+        .speed_hz = handle->speed,
+        .delay_usecs = handle->delay, 
+        .bits_per_word = handle->bits,
+    };
+
+    if (ioctl(handle->fd, SPI_IOC_MESSAGE(1), &tr) < 0)
+    {
+        fprintf(stderr, "SPI: write failed\n"); 
+        return ERROR; 
+    }
+
+    return OK;
+}
+
+int spi_read(spi_handle_t *handle, uint8_t *data, size_t len)
+{
+    if (!handle || !data || len == 0)
+    {
+        fprintf(stderr, "SPI: Invalid parameters\n"); 
+        return ERROR; 
+    }
+
+    struct spi_ioc_transfer tr = {
+        .tx_buf = 0,
+        .rx_buf = (unsigned long)data, 
+        .len = len, 
+        .speed_hz = handle->speed,
+        .delay_usecs = handle->delay, 
+        .bits_per_word = handle->bits,
+    };
+
+    if (ioctl(handle->fd, SPI_IOC_MESSAGE(1), &tr) < 0)
+    {
+        fprintf(stderr, "SPI: read failed\n"); 
+        return ERROR; 
+    }
+
+    return OK;
+}
+
+int spi_transfer(spi_handle_t *handle, const uint8_t *tx_data, uint8_t *rx_data, size_t len)
+{
+    if (!handle || !tx_data || !rx_data || len == 0)
+    {
+        fprintf(stderr, "SPI: Invalid parameters\n"); 
+        return ERROR; 
+    }
+
+    struct spi_ioc_transfer tr = {
+        .tx_buf = (unsigned long)tx_data,
+        .rx_buf = (unsigned long)rx_data, 
+        .len = len, 
+        .speed_hz = handle->speed,
+        .delay_usecs = handle->delay, 
+        .bits_per_word = handle->bits,
+    };
+
+    if (ioctl(handle->fd, SPI_IOC_MESSAGE(1), &tr) < 0)
+    {
+        fprintf(stderr, "SPI: transfer failed\n"); 
+        return ERROR; 
+    }
+
+    return OK;
+}
+
+int spi_write_reg(spi_handle_t *handle, uint8_t reg, uint8_t data)
+{
+    if (!handle)
+    {
+        fprintf(stderr, "SPI: Invalid handle\n"); 
+        return ERROR; 
+    }
+
+    uint8_t buf[2] = {reg, data};
+
+    return spi_write(handle, buf, sizeof(buf));
+}
+
+int spi_read_reg(spi_handle_t *handle, uint8_t reg, uint8_t *data)
+{
+    if (!handle || !data)
+    {
+        fprintf(stderr, "SPI: Invalid parameters\n"); 
+        return ERROR; 
+    }
+
+    uint8_t tx_buf[2] = {reg, 0x00}; 
+    uint8_t rx_buf[2] = {0};
+
+    if (spi_transfer(handle, tx_buf, rx_buf, sizeof(tx_buf)) < 0)
+    {
+        fprintf(stderr, "SPI: register transfer failed\n");
+        return ERROR; 
+    }
+
+    *data = rx_buf[1];
+
+    return OK;
+}
