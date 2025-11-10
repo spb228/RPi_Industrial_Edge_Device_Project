@@ -1,11 +1,11 @@
-#include <stdio.h>
 #include "drivers/SPI/spi_driver.h"
+
+#include <stdio.h>
+
 
 int main(void)
 {
-    printf("hello from main\n");
-
-    spi_init();
+    fprintf(stdout, "[TRACE] running main\n");
 
     return 0;
 }

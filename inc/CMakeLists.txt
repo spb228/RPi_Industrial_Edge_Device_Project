@@ -4,7 +4,7 @@ project(inc)
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 
 set(INC_LIB_FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/oop_car.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/common_def.h
 )
 
 add_library(${PROJECT_NAME} STATIC 
