@@ -36,8 +36,14 @@ def main():
     # execute build commands
     run_command(cmake_config_command)
     run_command(cmake_build_command)
+
+    # run tests
+    run_command('ctest --output-on-failure --verbose', cwd=build_dir)
+
+    # execute the program
     os.chdir(bin_dir)
     run_command(run_command_exe)
+    
 
 if __name__ == '__main__':
     main()

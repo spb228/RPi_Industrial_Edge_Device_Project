@@ -1,3 +1,8 @@
+/* 
+Description : User-space SPI driver header file based on SPIdev interface
+Author      : Swapnil Barot
+*/
+
 #pragma once
 
 #include <stdint.h>
@@ -16,6 +21,10 @@
 
 #define SPI_DEVICE_0        "/dev/spidev0.0"
 #define SPI_DEVICE_1        "/dev/spidev0.1"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct 
 {
@@ -40,3 +49,7 @@ int spi_transfer(spi_handle_t *handle, const uint8_t *tx_data, uint8_t *rx_data,
 int spi_write_reg(spi_handle_t *handle, uint8_t reg, uint8_t data);
 
 int spi_read_reg(spi_handle_t *handle, uint8_t reg, uint8_t *data);
+
+#ifdef __cplusplus
+}
+#endif

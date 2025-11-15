@@ -9,4 +9,7 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 add_subdirectory(${CMAKE_SOURCE_DIR}/inc inc)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src src)
 
+enable_testing()
+add_subdirectory(${CMAKE_SOURCE_DIR}/tests tests)
+
 MESSAGE(STATUS "Done configuring entire CMake project")

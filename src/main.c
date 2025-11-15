@@ -1,7 +1,11 @@
+/* 
+Description : main project file
+Author      : Swapnil Barot
+*/
+
 #include "drivers/SPI/spi_driver.h"
 
 #include <stdio.h>
-
 
 int main(void)
 {
