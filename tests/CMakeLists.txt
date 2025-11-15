@@ -21,16 +21,23 @@ target_include_directories(mock_syscalls PUBLIC
     ${gtest_SOURCE_DIR}/include
 )
 
-add_executable(${PROJECT_NAME}
+# SPI Driver File List
+set(SPI_DRIVER_FILES
     ${CMAKE_SOURCE_DIR}/src/drivers/SPI/spi_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_spi.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/drivers/SPI/test_spi.cpp
 )
 
-# target_sources(${PROJECT_NAME} PRIVATE
-#     ${CMAKE_SOURCE_DIR}/src/drivers/SPI/spi_driver.c
-# )
+# Add future files to be tested here
+
+
+
+add_executable(${PROJECT_NAME}
+    ${SPI_DRIVER_FILES}
+)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/apps
+    ${CMAKE_SOURCE_DIR}/src/sensors
     ${CMAKE_SOURCE_DIR}/src/drivers
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/inc
