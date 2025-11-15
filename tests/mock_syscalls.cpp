@@ -46,14 +46,16 @@ int ioctl(int fd, unsigned long request, ...)
     return 0;
 }
 
-// // Mock close()
-// int close(int fd)
-// {
-//     if (!valid_fds.count(fd))
-//         return -1;
+// Mock close()
+int close(int fd)
+{
+    if (!valid_fds.count(fd))
+    {
+        return -1;
+    }
 
-//     valid_fds.erase(fd);
-//     return 0;
-// }
+    valid_fds.erase(fd);
+    return 0;
+}
 
 } // extern "C"

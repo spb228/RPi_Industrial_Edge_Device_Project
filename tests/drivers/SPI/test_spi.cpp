@@ -6,9 +6,11 @@
 extern bool mock_open_fail;
 extern bool mock_ioctl_fail;
 
-// Test parameters
+// Global test parameters
 static uint32_t spi_speed = 25000000;
 static uint32_t bits_per_word = 8;
+static uint8_t reg = 0x01;
+static uint8_t data = 0x0A;
 
 TEST(SPI_init, fails_on_null_argument)
 {
@@ -45,10 +47,29 @@ TEST(SPI_init, success)
 
 TEST(spi_write_reg, fail_on_null_argument)
 {
-    uint8_t reg = 0x01;
-    uint8_t data = 0x0A;
     int ret = spi_write_reg(nullptr, reg, data);
     ASSERT_EQ(ERROR, ret);
+}
+
+TEST(spi_write_reg, success)
+{
+    spi_handle_t* handle = spi_init(SPI_DEVICE_0, SPI_MODE_0, spi_speed, bits_per_word);
+    int ret = spi_write_reg(handle, reg, data);
+    ASSERT_EQ(OK, ret);
+}
+
+TEST(spi_read_reg, fail_on_null_argument)
+{
+    int ret = spi_read_reg(nullptr, reg, &data);
+    ASSERT_EQ(ERROR, ret);
+}
+
+TEST(spi_read_reg, success)
+{
+    spi_handle_t* handle = spi_init(SPI_DEVICE_0, SPI_MODE_0, spi_speed, bits_per_word);
+    int ret = spi_read_reg(handle, reg, &data);
+    ASSERT_EQ(OK, ret);
+    // TODO - add a data value and check if it comes back
 }
 
 // TEST(SPI_Write, FailsOnNullHandle)
