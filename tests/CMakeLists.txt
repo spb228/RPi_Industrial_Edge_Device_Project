@@ -35,9 +35,6 @@ add_executable(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/apps
-    ${CMAKE_SOURCE_DIR}/src/sensors
-    ${CMAKE_SOURCE_DIR}/src/drivers
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/inc
 )

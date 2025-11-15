@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
-project(drivers)
+project(sensors)
 
 add_library(${PROJECT_NAME} STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/SPI/spi_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/vibration/vib_sensor.c
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
@@ -10,7 +10,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries(${PROJECT_NAME} PRIVATE inc)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/SPI/
+    ${CMAKE_CURRENT_SOURCE_DIR}/..          #src
     ${CMAKE_SOURCE_DIR}/inc
 )
 
