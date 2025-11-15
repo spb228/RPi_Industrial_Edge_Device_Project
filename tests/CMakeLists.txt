@@ -5,18 +5,17 @@ project(tests)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Setup GoogleTest Framework
 include(FetchContent)
 FetchContent_Declare(
     googletest
     URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
 )
-
 FetchContent_MakeAvailable(googletest)
-
 include_directories(${gtest_SOURCE_DIR}/include)
 
+# Setup Mock Syscalls Library
 add_library(mock_syscalls mock_syscalls.cpp)
-
 target_include_directories(mock_syscalls PUBLIC
     ${gtest_SOURCE_DIR}/include
 )
@@ -27,7 +26,7 @@ set(SPI_DRIVER_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/SPI/test_spi.cpp
 )
 
-# Add future files to be tested here
+# Add future files to be tested here and append to add_executable()
 
 
 
