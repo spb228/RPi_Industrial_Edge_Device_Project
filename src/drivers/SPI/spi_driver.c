@@ -20,7 +20,7 @@ spi_handle_t* spi_init(const char *device, uint8_t mode, uint32_t speed, uint8_t
         return NULL; 
     }
 
-    spi_handle_t *handle = (spi_handle_t*)malloc(sizeof(spi_handle_t)); 
+    spi_handle_t *handle = (spi_handle_t*)calloc(1, sizeof(spi_handle_t)); 
     if (!handle)
     {
         fprintf(stderr, "SPI: mem alloc failed\n"); 
