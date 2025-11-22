@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /* Static Functions */
 static int vib_write_reg(vib_sensor_t *dev, uint8_t reg, uint8_t value)
@@ -60,5 +61,84 @@ vib_sensor_t* vib_sensor_init(const char *spi_dev_path, uint8_t mode, uint32_t s
     fprintf(stdout, "VIB: sensor init complete\n");
 
     return dev;
+}
+
+int vib_sensor_close(vib_sensor_t *dev)
+{
+    if (!dev) return ERROR; 
+    if (spi_close(dev->spi) < 0)
+    {
+        fprintf(stderr, "VIB: sensor close failure\n");
+        return ERROR;
+    }
+
+    free(dev);
+
+    return OK;
+}
+
+
+int vib_sensor_reset(vib_sensor_t *dev)
+{
+    if (!dev) return ERROR; 
+    const uint8_t sw_reset_mask = 0x01;
+    if (vib_write_reg(dev, IIS3DWB_CTRL3_C_REG, sw_reset_mask) < 0)
+    { 
+        fprintf(stderr, "VIB: sensor reset failure\n");
+        return ERROR;
+    }
+
+    /* wait for reset to finish */
+    usleep(10000); /* 10 ms */
+
+    return OK;
+}
+
+int vib_sensor_config(vib_sensor_t *dev, iis3dwb_fs_t fs, uint8_t lpf2_en)
+{
+    if (!dev) return ERROR; 
+    dev->fs = fs;
+    dev->lpf2_en = lpf2_en;
+
+    uint8_t reg = 0;
+    const uint8_t enable_sensor_val = 0x5; 
+    reg |= (enable_sensor_val << 5);        // enable sensor 
+    reg |= (fs << 2);                       
+    if (lpf2_en == 1) reg |= (1 << 1);
+
+    if (vib_write_reg(dev, IIS3DWB_CTRL1_XL_REG, reg) < 0)
+    {
+        fprintf(stderr, "VIB: sensor config write reg error\n");
+        return ERROR;
+    }
+
+    dev->fs = fs; 
+    dev->lpf2_en = lpf2_en;
+
+    return OK;
+}
+
+int vib_sensor_is_data_ready(vib_sensor_t *dev, uint8_t *ready)
+{
+    if (!dev || !ready) return ERROR; 
+
+    uint8_t read_val = 0;
+    if (vib_read_reg(dev, IIS3DWB_STATUS_REG, &read_val) < 0)
+    {
+        fprintf(stderr, "VIB: sensor data ready error\n");
+        return ERROR;
+    }
+
+    const uint8_t data_ready_mask = 0x01;
+    if (read_val & 0x01)
+    {
+        *ready = 1; // data is ready to be read
+    }
+    else
+    {
+        *ready = 0;
+    }
+
+    return 1;
 }
 
