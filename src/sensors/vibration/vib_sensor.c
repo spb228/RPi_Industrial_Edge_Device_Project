@@ -25,8 +25,8 @@ static int burst_read(vib_sensor_t *dev, uint8_t start, uint8_t *rx, size_t len)
     if (!dev || !rx || len == 0) return ERROR; 
 
     size_t tx_len = 1 + len; 
-    uint8_t *tx = (uint8_t*)malloc(tx_len);
-    uint8_t *local_rx = (uint8_t*)malloc(tx_len); 
+    uint8_t *tx = (uint8_t*)calloc(1, tx_len);
+    uint8_t *local_rx = (uint8_t*)calloc(1, tx_len); 
     if (!tx || !local_rx) 
     {
         free(tx); 
