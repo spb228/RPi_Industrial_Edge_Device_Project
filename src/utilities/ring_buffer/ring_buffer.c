@@ -18,7 +18,7 @@ int ring_buffer_init(ring_buffer_t *rb, size_t capacity, size_t element_size)
     rb->tail = 0; 
     rb->count = 0;
 
-    return 0;
+    return OK;
 }
 
 int ring_buffer_free(ring_buffer_t *rb)

@@ -4,7 +4,7 @@ project(src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/utilities utilities)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/drivers drivers)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sensors sensors)
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/apps apps)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/apps apps)
 
 add_executable(${PROJECT_NAME} main.c)
 
@@ -12,7 +12,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     utilities
     drivers
     sensors
-    #apps
+    apps
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC
