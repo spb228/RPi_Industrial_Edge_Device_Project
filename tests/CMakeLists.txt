@@ -26,12 +26,15 @@ set(SPI_DRIVER_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/drivers/SPI/test_spi.cpp
 )
 
-# Add future files to be tested here and append to add_executable()
-
-
+# SPI Driver File List
+set(VIB_SENSOR_FILES
+    ${CMAKE_SOURCE_DIR}/src/sensors/vibration/vib_sensor.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/sensors/vibration/test_vib_sensor.cpp
+)
 
 add_executable(${PROJECT_NAME}
     ${SPI_DRIVER_FILES}
+    ${VIB_SENSOR_FILES}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

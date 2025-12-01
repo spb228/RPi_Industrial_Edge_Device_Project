@@ -72,30 +72,30 @@ TEST(spi_read_reg, success)
     // TODO - add a data value and check if it comes back
 }
 
-// TEST(SPI_Write, FailsOnNullHandle)
-// {
-//     uint8_t buf[1] = {0xAA};
-//     EXPECT_EQ(spi_write(NULL, buf, 1), ERROR);
-// }
+TEST(SPI_Write, FailsOnNullHandle)
+{
+    uint8_t buf[1] = {0xAA};
+    EXPECT_EQ(spi_write(NULL, buf, 1), ERROR);
+}
 
-// TEST(SPI_Write, IoctlFailure)
-// {
-//     auto h = spi_init("/dev/spidev0.0", 0, 500000, 8);
-//     mock_ioctl_fail = true;
+TEST(SPI_Write, IoctlFailure)
+{
+    auto h = spi_init("/dev/spidev0.0", 0, 500000, 8);
+    mock_ioctl_fail = true;
 
-//     uint8_t buf[1] = {0xAA};
-//     EXPECT_EQ(spi_write(h, buf, 1), ERROR);
+    uint8_t buf[1] = {0xAA};
+    EXPECT_EQ(spi_write(h, buf, 1), ERROR);
 
-//     mock_ioctl_fail = false;
-//     spi_close(h);
-// }
+    mock_ioctl_fail = false;
+    spi_close(h);
+}
 
-// TEST(SPI_ReadReg, SuccessfulRead)
-// {
-//     auto h = spi_init("/dev/spidev0.0", 0, 500000, 8);
+TEST(SPI_ReadReg, SuccessfulRead)
+{
+    auto h = spi_init("/dev/spidev0.0", 0, 500000, 8);
 
-//     uint8_t value = 0;
-//     EXPECT_EQ(spi_read_reg(h, 0x10, &value), OK);
+    uint8_t value = 0;
+    EXPECT_EQ(spi_read_reg(h, 0x10, &value), OK);
 
-//     spi_close(h);
-// }
+    spi_close(h);
+}

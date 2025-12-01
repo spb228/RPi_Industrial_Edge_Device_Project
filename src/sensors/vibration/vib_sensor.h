@@ -19,6 +19,10 @@ Author      : Swapnil Barot
 #define IIS3DWB_FIFO_CTRL4_REG          0x0A    // FIFO configuration
 #define IIS3DWB_READ_MASK               0x80    // MSB = 1 for read
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Struct definitions */
 typedef struct
 {
@@ -48,3 +52,7 @@ int vib_sensor_reset(vib_sensor_t *dev);
 int vib_sensor_config(vib_sensor_t *dev, iis3dwb_fs_t fs, uint8_t lpf2_en);
 int vib_sensor_is_data_ready(vib_sensor_t *dev, uint8_t *ready);
 int vib_sensor_read(vib_sensor_t *dev, vib_sensor_data_t *data);
+
+#ifdef __cplusplus
+}
+#endif
